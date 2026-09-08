@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>StopBlocking — 빠르고 간단한 검색</title>
+  <meta name="description" content="StopBlocking는 빠르고 간단하게 정보를 찾을 수 있는 검색 서비스입니다.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="StopBlocking — 빠르고 간단한 검색">
+  <meta property="og:description" content="StopBlocking는 빠르고 간단하게 정보를 찾을 수 있는 검색 서비스입니다.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 이동</a>
+
+<header class="header">
+  <div class="header-inner">
+    <button class="brand brand-button" id="homeButton" type="button" aria-label="StopBlocking 홈">StopBlocking</button>
+    <nav class="nav" aria-label="검색 종류">
+      <button class="nav-item active" data-mode="web" type="button">웹</button>
+      <button class="nav-item" data-mode="images" type="button">이미지</button>
+      <button class="nav-item" data-mode="news" type="button">뉴스</button>
+      <button class="nav-item" data-mode="videos" type="button">동영상</button>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="settingsButton" type="button" aria-label="설정" title="설정">⚙</button>
+      <button class="icon-btn" id="themeButton" type="button" aria-label="테마 변경" title="테마 변경">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="home-view" id="homeView">
+    <div class="hero">
+      <div class="hero-logo">StopBlocking</div>
+      <p class="tagline">빠르고 간단하게 원하는 정보를 찾아보세요.</p>
+
+      <form class="search-form" id="searchForm" role="search" autocomplete="off">
+        <div class="search-box">
+          <span class="search-symbol" aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="무엇을 찾고 있나요?" aria-label="검색어"
+                 aria-autocomplete="list" aria-controls="autocompleteList" aria-expanded="false"
+                 spellcheck="false">
+          <button class="clear-btn" id="clearButton" type="button" aria-label="검색어 삭제" hidden>×</button>
+          <button class="voice-btn" id="voiceButton" type="button" aria-label="음성 검색" title="음성 검색">♩</button>
+
+          <div class="engine-wrap">
+            <button class="engine-btn" id="engineButton" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span id="engineLabel">Google</span><span aria-hidden="true">⌄</span>
+            </button>
+            <div class="engine-menu" id="engineMenu" role="listbox" hidden>
+              <button class="engine-option selected" type="button" data-engine="google" role="option" aria-selected="true">Google</button>
+              <button class="engine-option" type="button" data-engine="bing" role="option" aria-selected="false">Bing</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="autocomplete" id="autocompleteList" role="listbox" hidden></div>
+
+        <div class="search-actions">
+          <button class="primary-btn" type="submit">검색</button>
+          <span class="shortcut-hint"><kbd>/</kbd> 검색창</span>
+        </div>
+      </form>
+
+      <div class="home-lower">
+        <div class="quick-title">최근 검색</div>
+        <div class="history" id="historyList"></div>
+        <div class="empty-history" id="emptyHistory">최근 검색 기록이 없습니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="results-view" id="resultsView" hidden>
+    <div class="results-container">
+      <form class="results-search" id="resultsForm" role="search" autocomplete="off">
+        <div class="search-box compact">
+          <span class="search-symbol" aria-hidden="true">⌕</span>
+          <input id="resultsInput" type="search" aria-label="검색어" spellcheck="false">
+          <button class="clear-btn" id="resultsClearButton" type="button" aria-label="검색어 삭제" hidden>×</button>
+          <button class="primary-btn compact-btn" type="submit">검색</button>
+        </div>
+      </form>
+
+      <div class="result-tabs" id="resultTabs" role="tablist">
+        <button class="result-tab active" data-mode="web" type="button">웹</button>
+        <button class="result-tab" data-mode="images" type="button">이미지</button>
+        <button class="result-tab" data-mode="news" type="button">뉴스</button>
+        <button class="result-tab" data-mode="videos" type="button">동영상</button>
+      </div>
+
+      <div class="results-meta" id="resultsMeta"></div>
+      <div class="loading" id="loading" hidden>
+        <div class="skeleton line long"></div>
+        <div class="skeleton line medium"></div>
+        <div class="skeleton line short"></div>
+        <div class="skeleton line long"></div>
+        <div class="skeleton line medium"></div>
+      </div>
+      <div id="resultsContent"></div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="overlay" id="settingsOverlay" hidden>
+  <aside class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="panel-head">
+      <h2 id="settingsTitle">설정</h2>
+      <button class="icon-btn" id="closeSettings" type="button" aria-label="설정 닫기">×</button>
+    </div>
+
+    <div class="setting-section">
+      <h3>테마</h3>
+      <div class="segmented" id="themeOptions">
+        <button type="button" data-theme="light">Light</button>
+        <button type="button" data-theme="dark">Dark</button>
+        <button type="button" data-theme="system">System</button>
+      </div>
+    </div>
+
+    <div class="setting-section">
+      <h3>검색 엔진</h3>
+      <div class="radio-list">
+        <label><input type="radio" name="engine" value="google"> Google</label>
+        <label><input type="radio" name="engine" value="bing"> Bing</label>
+      </div>
+    </div>
+
+    <div class="setting-section">
+      <h3>동작</h3>
+      <label class="toggle-row"><span>애니메이션</span><input id="animationToggle" type="checkbox"><span class="switch"></span></label>
+      <label class="toggle-row"><span>검색 결과 새 탭에서 열기</span><input id="newTabToggle" type="checkbox"><span class="switch"></span></label>
+    </div>
+
+    <div class="setting-section">
+      <h3>검색 기록</h3>
+      <button class="danger-btn" id="clearHistoryButton" type="button">전체 검색 기록 삭제</button>
+    </div>
+
+    <p class="privacy-note">검색 기록과 설정은 이 브라우저의 localStorage에만 저장됩니다.</p>
+  </aside>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
