@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="StopBlocking - 자체 색인 기반 독립 검색 사이트">
+<meta name="theme-color" content="#ffffff">
+<title>StopBlocking — 독립 검색</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <a href="#" class="brand" id="homeLink" aria-label="StopBlocking 홈">StopBlocking</a>
+  <nav class="nav" aria-label="검색 유형">
+    <button class="nav-btn active" data-mode="web">Web</button>
+    <button class="nav-btn" data-mode="images">Images</button>
+    <button class="nav-btn" data-mode="news">News</button>
+    <button class="nav-btn" data-mode="videos">Videos</button>
+  </nav>
+  <div class="actions">
+    <button id="themeBtn" class="icon-btn" aria-label="테마">◐</button>
+    <button id="settingsBtn" class="icon-btn" aria-label="설정">⚙</button>
+  </div>
+</header>
+
+<main>
+<section id="home" class="home">
+  <div class="hero">
+    <div class="mark">S</div>
+    <h1>StopBlocking</h1>
+    <p>막힌 검색 경험 대신, <strong>내 검색 데이터</strong>를 직접 찾아보세요.</p>
+    <form id="homeForm" class="search-form" autocomplete="off">
+      <div class="search-box">
+        <span class="search-symbol">⌕</span>
+        <input id="homeInput" type="search" placeholder="검색어를 입력하세요" aria-label="검색어">
+        <button id="clearHome" type="button" class="inside" aria-label="지우기">×</button>
+        <button id="voice" type="button" class="inside" aria-label="음성 검색">◉</button>
+        <span class="engine">LOCAL INDEX</span>
+      </div>
+      <div id="homeSuggest" class="suggest" hidden></div>
+      <button class="search-button" type="submit">검색</button>
+    </form>
+    <div id="history" class="history" hidden>
+      <div class="history-head"><span>최근 검색</span><button id="clearHistory">전체 삭제</button></div>
+      <div id="historyList"></div>
+    </div>
+    <div class="note">
+      이 사이트는 검색어를 어떤 외부 검색엔진으로 전달하거나 리디렉션하지 않습니다.<br>
+      결과는 StopBlocking에 저장된 <b>자체 색인 데이터</b>에서 계산됩니다.
+    </div>
+  </div>
+</section>
+
+<section id="results" class="results" hidden>
+  <form id="resultsForm" class="results-form" autocomplete="off">
+    <a href="#" class="mini-brand" id="miniHome">StopBlocking</a>
+    <div class="search-box compact">
+      <span class="search-symbol">⌕</span>
+      <input id="resultsInput" type="search" aria-label="검색어">
+      <button id="clearResults" type="button" class="inside" aria-label="지우기">×</button>
+      <span class="engine">LOCAL INDEX</span>
+    </div>
+    <button class="search-button compact-button" type="submit">검색</button>
+  </form>
+  <div id="resultSuggest" class="suggest result-suggest" hidden></div>
+  <div class="toolbar">
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-mode="web">Web</button>
+      <button class="tab" data-mode="images">Images</button>
+      <button class="tab" data-mode="news">News</button>
+      <button class="tab" data-mode="videos">Videos</button>
+    </div>
+    <span id="meta"></span>
+  </div>
+  <div id="loading" class="loading" hidden><i></i><i></i><i></i></div>
+  <div id="content"></div>
+</section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<div id="overlay" class="overlay" hidden>
+<aside class="settings" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="settings-head"><h2 id="settingsTitle">설정</h2><button id="closeSettings" class="icon-btn">×</button></div>
+  <section><h3>테마</h3>
+    <div class="segmented">
+      <button data-theme="system">시스템</button><button data-theme="light">라이트</button><button data-theme="dark">다크</button>
+    </div>
+  </section>
+  <section><h3>검색 방식</h3>
+    <div class="local-info"><span></span><div><b>StopBlocking 자체 색인</b><p>브라우저 안에서 검색합니다. 외부 검색엔진으로 검색어를 보내지 않습니다.</p></div></div>
+  </section>
+  <section><h3>인터페이스</h3>
+    <label class="toggle"><span>애니메이션</span><input id="animation" type="checkbox"><i></i></label>
+    <label class="toggle"><span>결과 링크 새 탭</span><input id="newTab" type="checkbox"><i></i></label>
+  </section>
+  <section><h3>검색 기록</h3><button id="settingsClear" class="danger">검색 기록 모두 삭제</button></section>
+</aside>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
